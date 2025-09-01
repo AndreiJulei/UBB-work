@@ -1,0 +1,5 @@
+/home/juv/Documents/GitHub/a8-9-JuleiAndrei/build/CMakeFiles/untitled1.dir
+/home/juv/Documents/GitHub/a8-9-JuleiAndrei/build/CMakeFiles/edit_cache.dir
+/home/juv/Documents/GitHub/a8-9-JuleiAndrei/build/CMakeFiles/rebuild_cache.dir
+/home/juv/Documents/GitHub/a8-9-JuleiAndrei/build/CMakeFiles/untitled1_autogen_timestamp_deps.dir
+/home/juv/Documents/GitHub/a8-9-JuleiAndrei/build/CMakeFiles/untitled1_autogen.dir

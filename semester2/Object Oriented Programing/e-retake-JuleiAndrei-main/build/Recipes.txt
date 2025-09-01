@@ -1,0 +1,6 @@
+Beef Wellington,British,120,beef,mushroom,puff pastry,egg yolk,prosciutto
+Croissant,French,75,eggs,dough,butter
+Pizza,Italian,90,dough,tomato sauce,cheeze,peperoni
+Sushi,Japanese,60,sushi rice,salmon,tuna,soy sauce
+Sarmale,Romainian,45,varza,carne tocata,legume
+Abc,British,22,beef,puff pastry,soy sauce

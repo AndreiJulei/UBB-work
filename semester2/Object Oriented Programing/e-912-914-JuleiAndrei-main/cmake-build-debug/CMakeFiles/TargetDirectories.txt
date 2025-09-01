@@ -1,0 +1,5 @@
+/Users/juv/Documents/github/e-912-914-JuleiAndrei/cmake-build-debug/CMakeFiles/QtOOPApp.dir
+/Users/juv/Documents/github/e-912-914-JuleiAndrei/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/juv/Documents/github/e-912-914-JuleiAndrei/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/juv/Documents/github/e-912-914-JuleiAndrei/cmake-build-debug/CMakeFiles/QtOOPApp_autogen_timestamp_deps.dir
+/Users/juv/Documents/github/e-912-914-JuleiAndrei/cmake-build-debug/CMakeFiles/QtOOPApp_autogen.dir
