@@ -1,0 +1,74 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14 00000000 2B34326138345835        	s db '+', '4', '2', 'a', '8', '4', 'X', '5'
+    15                                  	ls equ $-s
+    16                                  	
+    17 00000008 613435                  	d db 'a', '4', '5'
+    18                                  	ld equ $-d
+    19                                  	
+    20 0000000B 00<rept>                	dest times ld+ls db 0
+    21                                  	
+    22                                  	
+    23                                  ; our code starts here
+    24                                  segment code use32 class=code
+    25                                      start:
+    26                                          ; ...
+    27 00000000 31C9                    		xor ecx,ecx
+    28 00000002 31C0                    		xor eax,eax
+    29 00000004 31DB                    		xor ebx,ebx
+    30 00000006 31D2                    		xor edx,edx
+    31                                  		
+    32 00000008 B107                    		mov cl,ls-1
+    33 0000000A BE[00000000]            		mov esi,s
+    34 0000000F BF[0B000000]            		mov edi,dest
+    35 00000014 B200                    		mov dl,0
+    36                                  	
+    37                                  		repeta:
+    38 00000016 31C0                    			xor eax,eax
+    39 00000018 88D0                    			mov al,dl
+    40 0000001A B303                    			mov bl,3
+    41 0000001C F6F3                    			div bl
+    42 0000001E 80FC00                  			cmp ah,0
+    43 00000021 7408                    			jz retine
+    44                                  
+    45                                  			next:
+    46 00000023 FEC2                    			inc dl
+    47 00000025 38CA                    			cmp dl,cl
+    48 00000027 75ED                    			jnz repeta
+    49 00000029 EB08                    		jmp end_
+    50                                  		
+    51                                  		retine:
+    52 0000002B 8A1C16                  				mov bl,byte[esi+edx]
+    53 0000002E 881F                    				mov byte[edi],bl
+    54 00000030 47                      				inc edi
+    55 00000031 EBF0                    				jmp next
+    56                                  		end_:
+    57                                  		
+    58 00000033 31C9                    		xor ecx,ecx
+    59 00000035 B903000000              		mov ecx,ld
+    60                                  		
+    61 0000003A BE[08000000]            		mov esi,d
+    62 0000003F 83C602                  		add esi,ld-1
+    63 00000042 FD                      		std
+    64 00000043 31C0                    		xor eax,eax
+    65                                  		stocare:
+    66 00000045 47                      			inc edi
+    67 00000046 AC                      			lodsb 
+    68 00000047 8807                    			mov byte[edi],al
+    69 00000049 E2FA                    		loop stocare
+    70                                  			
+    71                                  			
+    72                                          ; exit(0)
+    73 0000004B 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    74 0000004D FF15[00000000]                  call    [exit]       ; call exit to terminate the program

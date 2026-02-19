@@ -1,0 +1,134 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  extern fprintf, fread, fopen, fclose, scanf, printf
+    11                                  import fopen msvcrt.dll
+    12                                  import fprintf msvcrt.dll
+    13                                  import fclose msvcrt.dll
+    14                                  import fread msvcrt.dll
+    15                                  import printf msvcrt.dll
+    16                                  import scanf msvcrt.dll		  
+    17                                  						  
+    18                                  ; our data is declared here (the variables needed by our program)
+    19                                  segment data use32 class=data
+    20                                      ; ...
+    21                                  	;2. se citeste de la tastatura un nr de fisier input.txt si un caracter 'a' fisierul input.txt contine cuvinte separate prin #, sa se scrie in output.txt doar cuvintele in care apare caracterul 'a' doar pe pozitia 
+    22                                  	
+    23 00000000 7200000000000000        	acces_read dd 'r',0
+    24 00000008 7700000000000000        	acces_write dd 'w',0
+    25 00000010 657833696E7075742E-     	file_path_input db "ex3input.txt",0
+    25 00000019 74787400           
+    26 0000001D 6578336F7574707574-     	file_path_output db "ex3output.txt",0
+    26 00000026 2E74787400         
+    27 0000002B 00000000                	litera dd 0
+    28 0000002F 00000000                	id dd 0
+    29 00000033 2573000000000000        	format_litera dd "%s",0
+    30 0000003B <res 00000064>          	buffer resb 100
+    31 0000009F <res 00000064>          	sir_cuvinte_finale resb 100
+    32                                  	
+    33                                  	
+    34                                  	
+    35                                  	
+    36                                  ; our code starts here
+    37                                  segment code use32 class=code
+    38                                      start:
+    39                                          ; ...
+    40 00000000 68[2B000000]            		push dword litera
+    41 00000005 68[33000000]            		push dword format_litera
+    42 0000000A FF15[00000000]          		call [scanf]
+    43 00000010 83C408                  		add esp,4*2
+    44                                  		
+    45                                  		
+    46 00000013 8B1D[2B000000]          		mov ebx,[litera]
+    47                                  		
+    48 00000019 68[00000000]            		push acces_read
+    49 0000001E 68[10000000]            		push file_path_input
+    50 00000023 FF15[00000000]          		call [fopen]
+    51 00000029 83C408                  		add esp,4*2
+    52                                  		
+    53                                  		
+    54 0000002C A3[2F000000]            		mov [id],eax
+    55 00000031 BF[9F000000]            		mov edi,sir_cuvinte_finale
+    56                                  		
+    57                                  		
+    58                                  		citire_sir:
+    59                                  			
+    60 00000036 FF35[2F000000]          			push dword[id]
+    61 0000003C 6A64                    			push dword 100
+    62 0000003E 6A01                    			push dword 1
+    63 00000040 68[3B000000]            			push buffer 
+    64 00000045 FF15[00000000]          			call [fread]
+    65 0000004B 83C410                  			add esp,4*4
+    66                                  			
+    67 0000004E 31C0                    			xor eax,eax
+    68 00000050 BE[3B000000]            			mov esi,buffer
+    69                                  			
+    70                                  			cuvinte:
+    71                                  				
+    72 00000055 8A4602                  				mov al,byte[esi+2]
+    73 00000058 38D8                    				cmp al,bl
+    74 0000005A 740D                    				je stocare_cuvant
+    75                                  				
+    76                                  				next_word
+    76          ******************       warning: label alone on a line without a colon might be in error [-w+orphan-labels]
+    77 0000005C 46                      					inc esi
+    78 0000005D 8A06                    					mov al,byte[esi]
+    79                                  					
+    80 0000005F 3C00                    					cmp al,0
+    81 00000061 741D                    					je done
+    82                                  					
+    83 00000063 3C23                    					cmp al,'#'
+    84 00000065 75F5                    					jne next_word
+    85                                  					
+    86 00000067 EBEC                    				jmp cuvinte
+    87                                  				
+    88                                  				stocare_cuvant:
+    89 00000069 8A06                    					mov al,byte[esi]
+    90 0000006B 3C00                    					cmp al,0
+    91 0000006D 7411                    					jz done
+    92                                  					
+    93 0000006F 3C23                    					cmp al,'#'
+    94 00000071 7406                    					jz next_unknown_word
+    95                                  					
+    96 00000073 8807                    					mov byte[edi],al
+    97 00000075 47                      					inc edi
+    98 00000076 46                      					inc esi
+    99 00000077 EBF0                    				jmp stocare_cuvant
+   100                                  					
+   101                                  				next_unknown_word:
+   102 00000079 C60720                  					mov byte[edi],' '
+   103 0000007C 47                      					inc edi
+   104 0000007D 46                      					inc esi
+   105 0000007E EBD5                    					jmp cuvinte
+   106                                  				
+   107                                  		
+   108                                  		done:
+   109                                  		
+   110 00000080 FF35[2F000000]          		push dword [id]
+   111 00000086 FF15[00000000]          		call [fclose]
+   112 0000008C 83C404                  		add esp,4
+   113                                  		
+   114 0000008F 68[08000000]            		push acces_write
+   115 00000094 68[1D000000]            		push file_path_output
+   116 00000099 FF15[00000000]          		call [fopen]
+   117                                  		
+   118 0000009F 89C3                    		mov ebx,eax
+   119 000000A1 BE[9F000000]            		mov esi,sir_cuvinte_finale
+   120                                  		
+   121 000000A6 8A06                    		mov al,byte[esi]
+   122                                  		
+   123                                  		_end_:
+   124                                  		
+   125 000000A8 53                      		push ebx
+   126 000000A9 FF15[00000000]          		call [fclose]
+   127 000000AF 83C404                  		add esp,4
+   128                                  		
+   129                                          ; exit(0)
+   130 000000B2 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+   131 000000B4 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

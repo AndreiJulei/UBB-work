@@ -1,0 +1,52 @@
+     1                                  bits 32 ; assembling for the 32-bit architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  
+    10                                  ; our data is declared here (the variables needed by our program)
+    11                                  segment data use32 class=data
+    12 00000000 31323334                    A db '1','2','3','4'
+    13 00000004 35363738                    B db '5','6','7','8'
+    14                                      
+    15                                      L_A equ $-A 
+    16                                      L_B equ $-B 
+    17                                      
+    18 00000008 00<rept>                    R times (L_A + L_B) db 0 
+    19                                  
+    20                                  ; our code starts here
+    21                                  segment code use32 class=code
+    22                                      start:
+    23 00000000 B904000000                      mov ecx, L_B        
+    24 00000005 BE[08000000]                    mov esi, R           
+    25 0000000A BB04000000                      mov ebx,L_B
+    26                                  
+    27                                      reverse_B:
+    28 0000000F 8A83[03000000]                  mov al,[B+ebx-1]         
+    29 00000015 8886[08000000]                  mov [R+esi],al
+    30 0000001B 46                              inc esi              
+    31 0000001C 4B                              dec ebx  
+    32 0000001D E2F0                        loop reverse_B       
+    33                                  
+    34 0000001F B908000000                  mov ecx, L_A         
+    35 00000024 BF[00000000]                mov edi, A          
+    36                                  
+    37                                      process_A:
+    38 00000029 8A07                            mov al, [edi]        
+    39 0000002B 2401                            and al, 1           
+    40 0000002D 7405                            jz skip_odd          
+    41                                  
+    42 0000002F 8806                                mov [esi], al
+    43 00000031 46                                  inc esi 
+    44 00000032 E2F5                                loop process_A
+    45                                  
+    46                                      skip_odd:
+    47 00000034 47                              inc edi              
+    48 00000035 E2F2                            loop process_A       
+    49                                  
+    50                                      ; Exit the program
+    51 00000037 6A00                        push dword 0         
+    52 00000039 FF15[00000000]              call [exit]          

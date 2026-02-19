@@ -1,0 +1,46 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14                                      ;Se da un sir S de dublucuvinte.
+    15                                      ;Sa se obtina sirul D format din octetii dublucuvintelor din sirul D sortati in ordine descrescatoare in interpretarea fara semn.
+    16                                      
+    17 00000000 07563412153C2B1A            s dd 12345607h, 1A2B3C15h
+    18                                      len_s equ ($-s)/4
+    19                                      
+    20 00000008 00<rept>                    d times 4*len_s db 0
+    21                                      
+    22                                      ; our code starts here
+    23                                  segment code use32 class=code
+    24                                      start:
+    25                                          ; ...
+    26 00000000 8B35[00000000]              mov esi,[s]
+    27 00000006 B902000000                  mov ecx,len_s
+    28 0000000B BF[08000000]                mov edi,d
+    29 00000010 FC                          cld
+    30                                      
+    31                                      loop_load:
+    32 00000011 AD                              lodsd
+    33 00000012 BA04000000                      mov edx,4
+    34                                          store_in_d:
+    35 00000017 AA                                  stosb
+    36 00000018 893D[08000000]                      mov [d],edi
+    37 0000001E 4A                                  dec edx
+    38 0000001F 75F6                            jnz store_in_d
+    39 00000021 E2EE                        loop loop_load
+    40                                      
+    41                                      
+    42                                      
+    43                                          
+    44                                          ; exit(0)
+    45 00000023 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    46 00000025 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

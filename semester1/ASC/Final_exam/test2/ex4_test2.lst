@@ -1,0 +1,122 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  
+    10                                  extern scanf,printf
+    11                                  import scanf msvcrt.dll
+    12                                  import printf msvcrt.dll
+    13                                  
+    14                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    15                                  
+    16                                  ; our data is declared here (the variables needed by our program)
+    17                                  segment data use32 class=data
+    18                                      ; ...
+    19 00000000 00000000                	numar dd 0
+    20 00000004 2564000000000000        	format dd '%d',0
+    21 0000000C <res 0000000A>          	sir_final resb 10
+    22                                  	
+    23 00000016 <res 0000000A>          	sir_fin resb 10
+    24                                  	
+    25 00000020 <res 00000028>          	sir_initial resd 10
+    26                                  	
+    27                                  ; our code starts here
+    28                                  segment code use32 class=code
+    29                                      start:
+    30                                          ; ...
+    31 00000000 68[00000000]            		push numar
+    32 00000005 68[04000000]            		push format
+    33 0000000A FF15[00000000]          		call [scanf]
+    34 00000010 83C408                  		add esp,4*2
+    35                                  		
+    36 00000013 8B1D[00000000]          		mov ebx,[numar]
+    37                                  		
+    38 00000019 BE[20000000]            		mov esi,sir_initial
+    39                                  		citire:
+    40 0000001E 4B                      			dec ebx
+    41 0000001F 68[00000000]            			push numar
+    42 00000024 68[04000000]            			push format
+    43 00000029 FF15[00000000]          			call [scanf]
+    44 0000002F 83C408                  			add esp,4*2
+    45 00000032 A1[00000000]            			mov eax,[numar]
+    46                                  			
+    47 00000037 8906                    			mov dword[esi],eax
+    48 00000039 83C604                  			add esi,4
+    49 0000003C 83FB00                  			cmp ebx,0
+    50 0000003F 75DD                    		jnz citire
+    51                                  		
+    52 00000041 BE[20000000]            		mov esi,sir_initial
+    53 00000046 BF[0C000000]            		mov edi,sir_final
+    54                                  		
+    55 0000004B 8B0D[00000000]          		mov ecx,[numar]
+    56                                  		
+    57                                  		creare_sir_final:
+    58 00000051 8B06                    			mov eax,dword[esi]
+    59                                  			
+    60 00000053 83F800                  			cmp eax,0
+    61 00000056 7426                    			jz final
+    62                                  			
+    63 00000058 83C604                  			add esi,4
+    64 0000005B 31DB                    			xor ebx,ebx
+    65                                  			verificare:
+    66 0000005D 83F800                  				cmp eax,0
+    67 00000060 7416                    				jz next
+    68                                  				
+    69 00000062 31D2                    				xor edx,edx
+    70 00000064 BB0A000000              				mov ebx,10
+    71 00000069 F7F3                    				div ebx 		;edx are ultima cifra
+    72 0000006B F7C201000000            				test edx,01		; verificam daca este para sau impara
+    73 00000071 75EA                    				jnz verificare	; daca este impara mergem la urmatoarea
+    74                                  				
+    75 00000073 8817                    				mov byte[edi],dl
+    76 00000075 47                      				inc edi
+    77 00000076 EBE5                    			jmp verificare
+    78                                  			
+    79                                  			next:
+    80 00000078 C60720                  				mov byte[edi],' '
+    81 0000007B 47                      				inc edi
+    82                                  				
+    83 0000007C EBD3                    			jmp creare_sir_final
+    84                                  			
+    85                                  				
+    86                                  		final:
+    87                                  		
+    88 0000007E BE[0C000000]            			mov esi,sir_final
+    89 00000083 BF[16000000]            			mov edi,sir_fin
+    90                                  			
+    91                                  			dupa_fiecare_numar:
+    92 00000088 BA01000000              			mov edx,1
+    93 0000008D 31DB                    			xor ebx,ebx
+    94                                  			formare_numere:
+    95 0000008F 8A06                    				mov al,byte[esi]
+    96 00000091 46                      				inc esi
+    97 00000092 3C20                    				cmp al,' '
+    98 00000094 7412                    				jz next_number
+    99                                  				
+   100 00000096 3C00                    				cmp al,0
+   101 00000098 7419                    				jz finalizare
+   102                                  				
+   103 0000009A F6E2                    				mul dl
+   104 0000009C 01C3                    				add ebx,eax
+   105 0000009E 88D0                    				mov al,dl
+   106 000000A0 B20A                    				mov dl,10
+   107 000000A2 F6E2                    				mul dl
+   108 000000A4 89C2                    				mov edx,eax
+   109 000000A6 EBE7                    			jmp formare_numere
+   110                                  			next_number:
+   111 000000A8 891F                    				mov [edi],dword ebx
+   112 000000AA 83C704                  				add edi,4
+   113 000000AD C60720                  				mov byte [edi],' '
+   114 000000B0 47                      				inc edi
+   115 000000B1 EBD5                    			jmp dupa_fiecare_numar
+   116                                  			
+   117                                  			
+   118                                  		finalizare:
+   119                                  			
+   120                                          ; exit(0)
+   121 000000B3 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+   122 000000B5 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

@@ -1,0 +1,55 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14 00000000 0A                          a db 10
+    15 00000001 0B00                        b dw 11
+    16 00000003 0C000000                    c dd 12
+    17 00000007 0D00000000000000            d dq 13
+    18 0000000F 00000000                    carry dd 0
+    19                                      
+    20                                  ; our code starts here
+    21                                  segment code use32 class=code
+    22                                      ;Problema 30:
+    23                                      ;(b+c+a)-(d+c+a)
+    24                                      start:
+    25                                          ; ...
+    26 00000000 66B80000                    mov ax,0
+    27 00000004 A0[00000000]                mov al,[a]
+    28 00000009 BB00000000                  mov ebx,0
+    29 0000000E 668B1D[01000000]            mov bx,[b]
+    30 00000015 6601C3                      add bx,ax
+    31                                      ; bx=(a+b)
+    32                                      
+    33 00000018 8B0D[03000000]              mov ecx,dword[c]
+    34 0000001E 01CB                        add ebx,ecx
+    35                                      ;ebx=(a+b)+c
+    36                                      
+    37                                      
+    38 00000020 A1[07000000]                mov eax,dword[d]
+    39 00000025 8B15[0B000000]              mov edx, dword[d+4]
+    40                                      ;store the quad word in two separate registers
+    41                                      
+    42 0000002B 01C8                        add eax,ecx     ;eax=d+c
+    43                                      
+    44 0000002D B900000000                  mov ecx,0
+    45 00000032 8A0D[00000000]              mov cl,[a]
+    46 00000038 11C8                        adc eax,ecx     ;eax=d+c+a
+    47                                      
+    48 0000003A 29C3                        sub ebx,eax
+    49                                      
+    50                                      
+    51                                      
+    52                                      
+    53                                      
+    54                                          ; exit(0)
+    55 0000003C 6A00                            push    dword 0      ; push the parameter for exit onto the stack

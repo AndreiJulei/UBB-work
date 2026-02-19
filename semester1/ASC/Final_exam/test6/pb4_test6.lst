@@ -1,0 +1,90 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  extern printf
+    10                                  import printf msvcrt.dll
+    11                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    12                                  
+    13                                  ; our data is declared here (the variables needed by our program)
+    14                                  segment data use32 class=data
+    15                                      ; ...
+    16 00000000 FFFFFFFF40E20100FF-     	sir dd -1,123456,0xabcdeff,0xabcdeff,0xcbcdeff,0xdbcdeff
+    16 00000009 DEBC0AFFDEBC0AFFDE-
+    16 00000012 BC0CFFDEBC0D       
+    17                                  	len equ ($-sir)/4
+    18 00000018 2578000000000000        	format dd '%x',0
+    19 00000020 <res 00000018>          	sir_sume resd len
+    20                                  	
+    21                                  
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                      start:
+    25                                          ; ...
+    26 00000000 BE[00000000]            		mov esi,sir
+    27 00000005 BF[20000000]            		mov edi,sir_sume
+    28 0000000A B906000000              		mov ecx,len
+    29                                  		
+    30                                  		repeta:
+    31 0000000F 31DB                    			xor ebx,ebx
+    32 00000011 31D2                    			xor edx,edx
+    33                                  			
+    34 00000013 AD                      			lodsd
+    35 00000014 83F800                  			cmp eax,0
+    36 00000017 7428                    			jz done
+    37                                  			adunare_cifre_numar:
+    38 00000019 88C3                    				mov bl,al
+    39 0000001B C1E804                  				shr eax,4
+    40 0000001E 80E30F                  				and bl,1111b
+    41 00000021 01DA                    				add edx,ebx
+    42 00000023 83F800                  				cmp eax,0
+    43 00000026 7402                    				jz store_sum
+    44 00000028 EBEF                    			jmp adunare_cifre_numar
+    45                                  			
+    46                                  			store_sum:
+    47 0000002A 8817                    				mov byte[edi],dl
+    48 0000002C 47                      				inc edi
+    49                                  				
+    50 0000002D E2E0                    		loop repeta
+    51                                  		
+    52 0000002F BF[00000000]            		mov edi,sir
+    53 00000034 BE[20000000]            		mov esi,sir_sume
+    54 00000039 AC                      		lodsb
+    55 0000003A 88C3                    		mov bl,al
+    56 0000003C 8B17                    		mov edx,[edi]
+    57 0000003E 83C704                  		add edi,4
+    58                                  		
+    59                                  		done:
+    60 00000041 AC                      			lodsb
+    61 00000042 3C00                    			cmp al,0
+    62 00000044 7422                    			jz exit_
+    63                                  			
+    64 00000046 88C7                    			mov bh,al
+    65 00000048 8B07                    			mov eax,[edi]
+    66 0000004A 83C704                  			add edi,4
+    67                                  			
+    68 0000004D 38FB                    			cmp bl,bh
+    69 0000004F 7C06                    			jl store_numbers
+    70                                  		
+    71                                  		comeback:
+    72 00000051 88FB                    			mov bl,bh			
+    73 00000053 89C2                    			mov edx,eax
+    74 00000055 EBEA                    		jmp done
+    75                                  		
+    76                                  		store_numbers:
+    77 00000057 52                      			push edx
+    78 00000058 68[18000000]            			push format
+    79 0000005D FF15[00000000]          			call [printf]
+    80 00000063 83C408                  			add esp,4*2
+    81 00000066 EBE9                    		jmp comeback
+    82                                  		
+    83                                  		exit_:
+    84                                  		
+    85                                      
+    86                                          ; exit(0)
+    87 00000068 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    88 0000006A FF15[00000000]                  call    [exit]       ; call exit to terminate the program

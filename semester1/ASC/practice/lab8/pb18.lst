@@ -1,0 +1,97 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  extern printf,scanf
+    13                                  
+    14                                  import printf msvcrt.dll
+    15                                  import scanf msvcrt.dll
+    16                                  
+    17                                  
+    18                                  segment data use32 class=data
+    19                                      ; ...
+    20                                  	;Sa se citeasca de la tastatura un numar in baza 10 si un numar in baza 16. Sa se afiseze in baza 10 numarul de biti 1 ai sumei celor doua numere citite. Exemplu:
+    21                                  	;a = 32 = 0010 0000b
+    22                                  	;b = 1Ah = 0001 1010b
+    23                                  	;32 + 1Ah = 0011 1010b
+    24                                  	
+    25 00000000 536372696520756E20-     	text_10 db "Scrie un numar in baza 10: ",0
+    25 00000009 6E756D617220696E20-
+    25 00000012 62617A612031303A20-
+    25 0000001B 00                 
+    26 0000001C 536372696520756E20-     	text_16 db "Scrie un numar in baza 16: ",0
+    26 00000025 6E756D617220696E20-
+    26 0000002E 62617A612031363A20-
+    26 00000037 00                 
+    27                                  
+    28 00000038 256400                  	format_numar_baza_10 db "%d",0
+    29 0000003B 257800                  	format_numar_baza_16 db "%x",0
+    30 0000003E 00                      	numar_baza_10 db 0
+    31 0000003F 00                      	numar_16 db 0	
+    32                                  	
+    33                                  ;Se va afisa pe ecran valoarea 4.
+    34                                  ; our code starts here
+    35                                  segment code use32 class=code
+    36                                      start:
+    37                                          ; ...
+    38 00000000 68[00000000]            		push dword text_10
+    39 00000005 FF15[00000000]          		call [printf]
+    40 0000000B 83C404                  		add esp,4
+    41                                  		
+    42 0000000E 68[3E000000]            		push numar_baza_10
+    43 00000013 68[38000000]            		push format_numar_baza_10
+    44 00000018 FF15[00000000]          		call [scanf]
+    45 0000001E 83C408                  		add esp,4*2
+    46                                  		
+    47 00000021 8B1D[3E000000]          		mov ebx,[numar_baza_10]
+    48                                  		
+    49 00000027 68[1C000000]            		push dword text_16
+    50 0000002C FF15[00000000]          		call [printf]
+    51 00000032 83C404                  		add esp,4
+    52                                  		
+    53 00000035 68[3F000000]            		push numar_16
+    54 0000003A 68[3B000000]            		push format_numar_baza_16
+    55 0000003F FF15[00000000]          		call [scanf]
+    56 00000045 83C408                  		add esp,4*2
+    57                                  		
+    58 00000048 A1[3F000000]            		mov eax,[numar_16]
+    59 0000004D 01D8                    		add eax,ebx
+    60                                  		
+    61 0000004F BB02000000              		mov ebx,2
+    62 00000054 31C9                    		xor ecx,ecx
+    63                                  		
+    64                                  		repeta:
+    65 00000056 F7F0                    			div eax
+    66 00000058 83FA01                  			cmp edx,1
+    67 0000005B 7407                    			jz result
+    68                                  			next:
+    69 0000005D 83F800                  			cmp eax,0
+    70 00000060 75F4                    		jnz repeta
+    71                                  		
+    72 00000062 EB03                    		jmp afisare
+    73                                  		
+    74                                  		result:
+    75 00000064 41                      		inc ecx
+    76 00000065 EBF6                    		jmp next
+    77                                  		
+    78                                  		
+    79                                  		afisare:
+    80                                  		
+    81 00000067 51                      		push dword ecx
+    82 00000068 68[38000000]            		push format_numar_baza_10
+    83 0000006D FF15[00000000]          		call [printf]
+    84 00000073 83C408                  		add esp,4*2
+    85                                  		
+    86                                  		
+    87                                  		
+    88                                      
+    89                                          ; exit(0)
+    90 00000076 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    91 00000078 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

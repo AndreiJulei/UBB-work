@@ -1,0 +1,72 @@
+bits 32 ; assembling for the 32 bits architecture
+
+; declare the EntryPoint (a label defining the very first instruction of the program)
+global start        
+
+; declare external functions needed by our program
+extern exit               ; tell nasm that exit exists even if we won't be defining it
+import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+
+; our data is declared here (the variables needed by our program)
+segment data use32 class=data
+    ; Se da un sir S de dublucuvinte.
+    ; Sa se obtina sirul D format din octetii dublucuvintelor din sirul D sortati in ordine descrescatoare in interpretarea fara semn.
+    
+    s dd 12345607h, 1A2B3C15h  ; Array of double words (32-bit)
+    len_s equ ($ - s) / 4      ; Calculate the length of the array (2 elements)
+
+    d times 4 * len_s db 0     ; Reserve space for the sorted octets (4 bytes for each element)
+
+; our code starts here
+segment code use32 class=code
+start:
+    ; Set up registers and point to the source array `s` and destination array `d`
+    mov esi, s        ; ESI points to the array `s` (input)
+    mov ecx, len_s    ; ECX is the loop counter for the number of elements in `s`
+    mov edi, d        ; EDI points to the array `d` (output)
+    cld               ; Clear the direction flag for string operations
+
+    ; Extract the least significant byte from each double word in `s` and store in `d`
+extract_loop:
+    lodsd              ; Load the next double word from `s` into EAX
+    and al, 0xFF       ; Extract the least significant byte (octet)
+    stosb              ; Store the octet in `d`
+    loop extract_loop  ; Continue until all elements are processed
+
+    ; Now sort the array `d` (octets) in descending order using bubble sort
+    mov ecx, 4 * len_s  ; Set ECX as the number of bytes to sort
+    mov esi, d          ; ESI points to the array `d`
+    dec ecx              ; Subtract 1 to ensure the outer loop runs len_s - 1 times
+
+sort_outer_loop:
+    mov edi, 0           ; EDI is the index for sorting
+
+sort_inner_loop:
+    mov al, [esi + edi]       ; Load the current byte
+    mov bl, [esi + edi + 1]   ; Load the next byte
+    cmp al, bl                ; Compare the two bytes
+    jg swap_octets            ; If AL > BL, swap the two bytes
+
+    ; Move to the next pair
+    inc edi
+    cmp edi, ecx              ; If EDI < ECX (length of the array), continue inner loop
+    jl sort_inner_loop
+
+    dec ecx                   ; Decrement the outer loop counter
+    jnz sort_outer_loop       ; If ECX is not zero, continue outer loop
+
+    jmp exit                   ; Exit when done
+
+swap_octets:
+    ; Swap the two octets if they are out of order
+    mov dl, al         ; Save AL in DL (temporary register)
+    mov al, bl         ; Move BL to AL
+    mov bl, dl         ; Move DL to BL (swap)
+    mov [esi + edi], al    ; Store AL (larger value) in the current position
+    mov [esi + edi + 1], bl  ; Store BL (smaller value) in the next position
+    jmp sort_inner_loop  ; Continue with the next pair
+
+exit:   
+    ; exit(0)
+    push    dword 0      ; push the parameter for exit onto the stack
+    call    [exit]       ; call exit to terminate the program

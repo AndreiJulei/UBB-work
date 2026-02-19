@@ -1,0 +1,81 @@
+     1                                  bits 32
+     2                                  global start        
+     3                                  extern exit, fopen, fread, printf, fclose
+     4                                  import exit msvcrt.dll
+     5                                  import fopen msvcrt.dll
+     6                                  import fread msvcrt.dll
+     7                                  import fclose msvcrt.dll
+     8                                  import printf msvcrt.dll
+     9                                                            
+    10                                  segment data use32 class=data
+    11                                      ; TASK: how many times the character e appears in the file
+    12 00000000 0000                        total_count dw 0	
+    13 00000002 66696C65732F726176-         file_path db "files/raven.txt", 0
+    13 0000000B 656E2E74787400     
+    14 00000012 7200                        read_access_mode db "r", 0
+    15 00000014 <res 00000064>              buffer resb 100
+    16 00000078 <res 00000001>              count_read resb 1
+    17                                  
+    18 00000079 4E756D626572206F66-         output_format db "Number of times lowercase 'e' appears is: %d", 0
+    18 00000082 2074696D6573206C6F-
+    18 0000008B 776572636173652027-
+    18 00000094 652720617070656172-
+    18 0000009D 732069733A20256400 
+    19                                  
+    20                                  segment code use32 class=code
+    21                                      start:
+    22                                          ; fopen("files/raven.txt", "r")
+    23 00000000 68[12000000]                    push read_access_mode
+    24 00000005 68[02000000]                    push file_path
+    25 0000000A FF15[00000000]                  call [fopen]  ; EAX contains the file handler
+    26 00000010 83C408                          add ESP, 4 * 2
+    27 00000013 89C3                            mov EBX, EAX  ; moved the handler to EBX because EAX might get modified by other functions
+    28                                          
+    29 00000015 83FB00                          cmp EBX, 0    ; check if the file was opened correctly
+    30 00000018 7462                            je skip_program ; basically FILE == NULL; cannot do anything more
+    31                                  
+    32                                          while_file_has_characters:
+    33                                              ; fread(&buffer, 1, 100, &FILE) - read 100 bytes
+    34                                              ; EAX will contain how many characters were read
+    35 0000001A 53                                  push EBX
+    36 0000001B 6A64                                push dword 100 ; how many characters we'll take at a time
+    37 0000001D 6A01                                push dword 1   ; 
+    38 0000001F 68[14000000]                        push buffer	 ; buffer will have the string 
+    39 00000024 FF15[00000000]                      call [fread] ; EAX = how many characters were read
+    40 0000002A 83C410                              add ESP, 4 * 4
+    41 0000002D A2[78000000]                        mov [count_read], AL ; save this to a variable
+    42                                  
+    43 00000032 89C1                                mov ECX, EAX    ; we want to loop over every character read
+    44 00000034 BE00000000                          mov ESI, 0
+    45 00000039 E314                                jecxz process_end
+    46                                              process_characters_on_buffer:
+    47 0000003B 8A86[14000000]                          mov AL, [buffer + ESI] ; AL = buffer[i]
+    48 00000041 3C65                                    cmp AL, 'e'
+    49 00000043 7507                                    jne skip_inc ; bufer[i] != 'e'
+    50 00000045 66FF05[00000000]                            inc word [total_count]
+    51                                                  skip_inc:
+    52 0000004C 46                                      inc ESI
+    53 0000004D E2EC                                loop process_characters_on_buffer
+    54                                              process_end:
+    55                                  
+    56 0000004F 803D[78000000]64                    cmp byte [count_read], 100
+    57 00000056 73C2                                jae while_file_has_characters
+    58                                              
+    59                                          ; fclose(FILE)
+    60 00000058 53                              push EBX
+    61 00000059 FF15[00000000]                  call [fclose]
+    62 0000005F 83C404                          add ESP, 4 * 1
+    63                                          
+    64                                          ; printf("Number of times lowercase 'e' appears is: %d", count_read)
+    65 00000062 B800000000                      mov EAX, 0
+    66 00000067 66A1[00000000]                  mov AX, [total_count]
+    67 0000006D 50                              push EAX
+    68 0000006E 68[79000000]                    push output_format
+    69 00000073 FF15[00000000]                  call [printf]
+    70 00000079 83C408                          add ESP, 4 * 2
+    71                                          
+    72                                          skip_program:
+    73                                          
+    74                                          ; exit(0)
+    75 0000007C 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    76 0000007E FF15[00000000]                  call    [exit]       ; call exit to terminate the program    

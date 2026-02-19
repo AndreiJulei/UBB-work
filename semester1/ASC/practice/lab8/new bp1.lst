@@ -1,0 +1,57 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  extern printf,scanf
+    11                                  import printf msvcrt.dll     ; indicam asamblorului ca functia printf se gaseste in libraria msvcrt.dll
+    12                                  import scanf msvcrt.dll     ; indicam asamblorului ca functia printf se gaseste in libraria msvcrt.dll
+    13                                  
+    14                                  
+    15                                  ; our data is declared here (the variables needed by our program)
+    16                                  segment data use32 class=data
+    17                                      ; ...
+    18                                  	;Sa se citeasca de la tastatura doua numere (in baza 10) si sa se calculeze produsul lor. Rezultatul inmultirii se va salva in memorie in variabila "rezultat" (definita in segmentul de date).
+    19 00000000 256400                  	format db "%d",0
+    20 00000003 00000000                	rezultat dd 0
+    21 00000007 00000000                	primul_numar dd 0
+    22 0000000B 00000000                	aldoilea_numar dd 0
+    23                                  	
+    24 0000000F 536372696520646F75-     	text db "Scrie doua numere: "
+    24 00000018 61206E756D6572653A-
+    24 00000021 20                 
+    25                                  	
+    26                                  ; our code starts here
+    27                                  segment code use32 class=code
+    28                                      start:
+    29                                          ; ...
+    30 00000000 68[0F000000]            		push dword text
+    31 00000005 FF15[00000000]          		call [printf]
+    32 0000000B 83C404                  		add esp,4
+    33                                  		
+    34 0000000E 68[07000000]            		push dword primul_numar
+    35 00000013 68[00000000]            		push dword format
+    36 00000018 FF15[00000000]          		call [scanf]
+    37 0000001E 83C408                  		add esp,4*2
+    38                                  		
+    39 00000021 68[0B000000]            		push dword aldoilea_numar
+    40 00000026 68[00000000]            		push dword format
+    41 0000002B FF15[00000000]          		call [scanf]
+    42 00000031 83C408                  		add esp,4*2
+    43                                  		
+    44 00000034 A1[07000000]            		mov eax,[primul_numar]
+    45 00000039 8B1D[0B000000]          		mov ebx,[aldoilea_numar]
+    46 0000003F F7E3                    		mul ebx
+    47                                  		
+    48 00000041 A3[03000000]            		mov dword[rezultat],eax
+    49                                  		
+    50                                  		
+    51                                  		
+    52                                  		
+    53                                          ; exit(0)
+    54 00000046 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    55 00000048 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

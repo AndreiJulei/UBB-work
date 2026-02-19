@@ -1,0 +1,127 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  
+    10                                  extern printf 
+    11                                  import printf msvcrt.dll
+    12                                  
+    13                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    14                                  
+    15                                  ; our data is declared here (the variables needed by our program)
+    16                                  segment data use32 class=data
+    17                                      ; ...
+    18 00000000 78A634127856341276-     	sir dd 1234A678h,12345678h,0FEDC9876h
+    18 00000009 98DCFE             
+    19 0000000C 00000000                	sum dd 0
+    20 00000010 00                      	max db 0
+    21                                  	len equ ($-sir)/4
+    22 00000011 00                      	cnt db 0
+    23 00000012 <res 00000004>          	sir_max resb len
+    24                                  	
+    25 00000016 <res 00000004>          	rank resb len
+    26 0000001A 2564000000000000        	format dd "%d",0
+    27                                  	
+    28                                  
+    29                                  ; our code starts here
+    30                                  segment code use32 class=code
+    31                                      start:
+    32                                          ; ...
+    33 00000000 BE[00000000]            		mov esi,sir
+    34 00000005 BF[12000000]            		mov edi,sir_max
+    35                                  		
+    36 0000000A B904000000              		mov ecx,len
+    37 0000000F 31DB                    		xor ebx,ebx
+    38 00000011 31D2                    		xor edx,edx
+    39                                  		
+    40                                  		repeta:
+    41 00000013 AD                      			lodsd
+    42 00000014 88C3                    			mov bl,al
+    43 00000016 C1E808                  			shr eax,8
+    44 00000019 88C2                    			mov dl,al
+    45 0000001B 38DA                    			cmp dl,bl
+    46 0000001D 7E02                    			jle next1
+    47 0000001F 88D3                    			mov bl,dl
+    48                                  
+    49                                  			next1:
+    50 00000021 C1E808                  				shr eax,8
+    51 00000024 88C2                    				mov dl,al
+    52 00000026 38DA                    				cmp dl,bl
+    53 00000028 7E02                    				jle next2
+    54 0000002A 88D3                    				mov bl,dl
+    55                                  			
+    56                                  			next2:
+    57 0000002C C1E808                  				shr eax,8
+    58 0000002F 88C2                    				mov dl,al
+    59 00000031 38DA                    				cmp dl,bl
+    60 00000033 7E02                    				jle next3
+    61 00000035 88D3                    				mov bl,dl
+    62                                  		next3:
+    63 00000037 881F                    		mov [edi],bl
+    64 00000039 47                      		inc edi
+    65 0000003A E2D7                    		loop repeta
+    66                                  		
+    67 0000003C BE[12000000]            		mov esi,sir_max
+    68 00000041 B904000000              		mov ecx,len
+    69 00000046 31DB                    		xor ebx,ebx
+    70 00000048 31C0                    		xor eax,eax
+    71                                  		
+    72                                  		adunare:
+    73 0000004A 8A06                    			mov al,byte[esi]
+    74 0000004C 01C3                    			add ebx,eax
+    75 0000004E 46                      			inc esi
+    76 0000004F E2F9                    		loop adunare
+    77                                  		
+    78 00000051 891D[0C000000]          		mov dword[sum],ebx
+    79                                  		
+    80 00000057 68[0C000000]            		push sum
+    81 0000005C 68[1A000000]            		push format
+    82 00000061 FF15[00000000]          		call [printf]
+    83 00000067 83C408                  		add esp,4*2
+    84                                  		
+    85 0000006A B904000000              		mov ecx,len
+    86 0000006F BE[12000000]            		mov esi,sir_max
+    87 00000074 31D2                    		xor edx,edx
+    88 00000076 31C0                    		xor eax,eax
+    89 00000078 31DB                    		xor ebx,ebx
+    90                                  		
+    91                                  		rank_outer:
+    92 0000007A 8A06                    			mov al,byte[esi]
+    93 0000007C BF[12000000]            			mov edi,sir_max
+    94                                  			
+    95 00000081 31DB                    			xor ebx,ebx
+    96 00000083 BA04000000              			mov edx,len
+    97                                  			rank_inner:
+    98 00000088 8A1F                    				mov bl,byte[edi]
+    99 0000008A 47                      				inc edi
+   100 0000008B 4A                      				dec edx
+   101                                  				
+   102 0000008C 38D8                    				cmp al,bl
+   103 0000008E 7F07                    				jg count
+   104                                  			
+   105 00000090 83FA00                  				cmp edx,0
+   106 00000093 75F3                    				jnz rank_inner
+   107                                  				
+   108 00000095 EB08                    				jmp create_rank
+   109                                  			
+   110                                  			count:
+   111 00000097 FE05[11000000]          				inc byte[cnt]
+   112 0000009D EBE9                    			jmp rank_inner
+   113                                  		create_rank:
+   114                                  		
+   115 0000009F 8A1D[11000000]          		mov bl,byte[cnt]
+   116 000000A5 881D[16000000]          		mov [rank],byte bl
+   117 000000AB 46                      		inc esi
+   118 000000AC E2CC                    		loop rank_outer
+   119                                  		
+   120                                  		
+   121                                  				
+   122                                  			
+   123                                      
+   124                                          ; exit(0)
+   125 000000AE 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+   126 000000B0 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

@@ -1,0 +1,79 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+     8                                  extern exit, printf, scanf  ; adaugam printf si scanf ca functii externe           
+     9                                  import exit msvcrt.dll     
+    10                                  import printf msvcrt.dll     ; indicam asamblorului ca functia printf se gaseste in libraria msvcrt.dll
+    11                                  import scanf msvcrt.dll     
+    12                                  
+    13                                  
+    14                                  ; our data is declared here (the variables needed by our program)
+    15                                  segment data use32 class=data
+    16                                      ; ...
+    17                                  	
+    18                                  	;Sa se citeasca de la tastatura doua numere a si b (in baza 10) si sa se calculeze a+b. 
+    19                                  	;Sa se afiseze rezultatul adunarii in baza 16.
+    20                                  	
+    21 00000000 256400                  	format db "%d",0 	;decimal number
+    22 00000003 577269746520746865-     	message_1 db "Write the first decimal number: ",0
+    22 0000000C 206669727374206465-
+    22 00000015 63696D616C206E756D-
+    22 0000001E 6265723A2000       
+    23 00000024 577269746520746865-     	message_2 db "Write the second decimal number: ",0
+    23 0000002D 207365636F6E642064-
+    23 00000036 6563696D616C206E75-
+    23 0000003F 6D6265723A2000     
+    24                                  	
+    25 00000046 257800                  	final_format db "%x",0	;(base 16)
+    26 00000049 54686520726573756C-     	final_message db "The result of the addition in hexa is: %x",0
+    26 00000052 74206F662074686520-
+    26 0000005B 6164646974696F6E20-
+    26 00000064 696E20686578612069-
+    26 0000006D 733A20257800       
+    27                                  	
+    28 00000073 00000000                	a dd 0
+    29 00000077 00000000                	b dd 0
+    30                                  	
+    31                                  ; our code starts here
+    32                                  segment code use32 class=code
+    33                                      start:
+    34                                          ; ...
+    35 00000000 68[03000000]            		push dword message_1
+    36 00000005 FF15[00000000]          		call [printf]	
+    37 0000000B 83C404                  		add esp,4
+    38 0000000E 68[73000000]            		push dword a					;push the address of the first number
+    39 00000013 68[00000000]            		push dword format	 		;push the format (decimal)
+    40 00000018 FF15[00000000]          		call [scanf	]				;write the number from the keboard
+    41 0000001E 83C408                  		add esp,4*2					;free the stack 
+    42                                  		
+    43                                  		
+    44                                  
+    45 00000021 68[24000000]            		push dword message_2
+    46 00000026 FF15[00000000]          		call [printf]
+    47 0000002C 83C404                  		add esp,4
+    48 0000002F 68[77000000]            		push dword b
+    49 00000034 68[00000000]            		push dword format
+    50 00000039 FF15[00000000]          		call [scanf]
+    51 0000003F 83C408                  		add esp,4*2
+    52                                  		
+    53 00000042 BB00000000              		mov ebx,0
+    54 00000047 8B1D[77000000]          		mov ebx,[b]
+    55 0000004D B900000000              		mov ecx,0
+    56 00000052 A1[73000000]            		mov eax,[a]
+    57 00000057 01D8                    		add eax,ebx
+    58                                  		
+    59                                  
+    60                                  		
+    61 00000059 50                      		push dword eax
+    62 0000005A 68[49000000]            		push dword final_message
+    63                                  
+    64 0000005F FF15[00000000]          		call [printf]
+    65 00000065 83C408                  		add esp,4*2
+    66                                  		
+    67                                          ; exit(0)
+    68 00000068 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    69 0000006A FF15[00000000]                  call    [exit]       ; call exit to terminate the program

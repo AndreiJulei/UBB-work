@@ -1,0 +1,36 @@
+     1                                  %ifndef _MODUL_HM8_ASM_
+     2                                  %define _MODUL_HM8_ASM_
+     3                                  
+     4                                  convert:
+     5                                  			
+     6 00000000 6631C9                  	xor ecx,ecx
+     7                                  		
+     8                                  		convert_bits:
+     9                                  	
+    10 00000003 678A06                  			mov al, byte[esi]           ;move the current byte
+    11 00000006 3C30                    			cmp al, "0"                 
+    12 00000008 7411                    			jz convert_zero                
+    13 0000000A 3C31                    			cmp al, "1"                 
+    14 0000000C 7402                    			jz convert_one              ;check if the character is "0" or "1"
+    15                                  			
+    16 0000000E EB16                    			jmp return
+    17                                  			
+    18                                  		convert_one:
+    19                                  			
+    20 00000010 66D1E1                  			shl ecx,1					
+    21 00000013 6683C901                			or ecx,1
+    22 00000017 6646                    			inc esi
+    23 00000019 EBE8                    		jmp convert_bits
+    24                                  				
+    25                                  		convert_zero:
+    26                                  		
+    27 0000001B 66D1E1                  			shl ecx,1
+    28 0000001E 6683C900                			or ecx,0
+    29 00000022 6646                    			inc esi
+    30 00000024 EBDD                    		jmp convert_bits
+    31                                  		
+    32                                  return:
+    33 00000026 67880F                  	mov [edi], cl 
+    34 00000029 C3                      	ret 
+    35                                  	
+    36                                  %endif

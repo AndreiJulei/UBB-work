@@ -1,0 +1,125 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  extern printf 
+    10                                  import printf msvcrt.dll
+    11                                  
+    12                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    13                                  
+    14                                  ; our data is declared here (the variables needed by our program)
+    15                                  segment data use32 class=data
+    16                                      ; ...
+    17 00000000 770000000000000000-     	sir dq 1110111b,10000000h,0abcd0002e7fch,5
+    17 00000009 00001000000000FCE7-
+    17 00000012 0200CDAB0000050000-
+    17 0000001B 0000000000         
+    18                                  	len equ ($-sir)/8
+    19 00000020 2564000000000000        	format dd '%d',0
+    20 00000028 2573000000000000        	format_string dd '%s',0
+    21 00000030 <res 00000010>          	rez resd len
+    22                                  	
+    23                                  	
+    24                                  ; our code starts here
+    25                                  segment code use32 class=code
+    26                                      start:
+    27                                          ; ...
+    28 00000000 BE[00000000]            		mov esi,sir
+    29 00000005 BF[30000000]            		mov edi,rez
+    30 0000000A B904000000              		mov ecx,len
+    31 0000000F FC                      		cld
+    32                                  		
+    33                                  		repeta:
+    34 00000010 31DB                    			xor ebx,ebx
+    35 00000012 AD                      			LODSD
+    36 00000013 83F800                  			cmp eax,0
+    37 00000016 743F                    			jz _exit
+    38                                  			
+    39                                  			
+    40 00000018 89C2                    			mov edx,eax
+    41                                  			verifying:
+    42 0000001A 83F800                  				cmp eax,0
+    43 0000001D 7429                    				jz done
+    44                                  				
+    45 0000001F A901000000              				test eax,01
+    46 00000024 7504                    				jnz next1
+    47                                  				
+    48 00000026 D1E8                    				shr eax,1
+    49 00000028 EBF0                    				jmp verifying
+    50                                  				
+    51                                  				
+    52                                  				next1:
+    53 0000002A A90A000000              				test eax,010
+    54 0000002F 7505                    				jnz next2
+    55                                  				
+    56 00000031 C1E802                  				shr eax,2
+    57 00000034 EBE4                    				jmp verifying
+    58                                  				
+    59                                  				
+    60                                  				next2:
+    61 00000036 A964000000              				test eax,0100
+    62 0000003B 7505                    				jnz count
+    63                                  				
+    64 0000003D C1E803                  				shr eax,3
+    65 00000040 EBD8                    				jmp verifying
+    66                                  				
+    67                                  				count:
+    68 00000042 C1E803                  					shr eax,3
+    69 00000045 43                      					inc ebx
+    70 00000046 EBD2                    				jmp verifying
+    71                                  			
+    72                                  			
+    73                                  			done:
+    74                                  			
+    75 00000048 83FB02                  				cmp ebx,2
+    76 0000004B 7D03                    				jge add_dword
+    77                                  			comeback:
+    78 0000004D AD                      				LODSD
+    79                                  				
+    80 0000004E E2C0                    			loop repeta
+    81                                  
+    82                                  				
+    83                                  			add_dword:
+    84 00000050 8917                    				mov dword[edi],edx
+    85 00000052 83C704                  				add edi,4
+    86 00000055 EBF6                    				jmp comeback
+    87                                  		
+    88                                  		_exit:	
+    89 00000057 BE[30000000]            			mov esi,rez
+    90                                  			
+    91                                  			afisare:
+    92 0000005C 8B06                    				mov eax,dword[esi]
+    93 0000005E 83F800                  				cmp eax,0
+    94 00000061 742B                    				jz finish_program
+    95                                  				
+    96 00000063 83C604                  				add esi,4
+    97                                  				
+    98 00000066 50                      				push eax
+    99 00000067 68[20000000]            				push format
+   100 0000006C FF15[00000000]          				call [printf]
+   101 00000072 83C408                  				add esp,4*2	
+   102                                  
+   103                                  				
+   104 00000075 B820000000              				mov eax,' '
+   105 0000007A 50                      				push eax
+   106 0000007B 68[28000000]            				push format_string
+   107 00000080 FF15[00000000]          				call [printf]
+   108 00000086 83C408                  				add esp,4*2
+   109                                  				
+   110 00000089 83C604                  				add esi,4
+   111                                  				
+   112 0000008C EBCE                    			jmp afisare
+   113                                  		
+   114                                  		finish_program:
+   115                                  		
+   116                                  		
+   117                                  		
+   118                                  		
+   119                                      
+   120                                          ; exit(0)
+   121 0000008E 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+   122 00000090 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

@@ -1,0 +1,110 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  						  
+    12                                  extern fopen, fprintf, fclose, fscanf
+    13                                  import fopen msvcrt.dll
+    14                                  import fscanf msvcrt.dll
+    15                                  import fclose msvcrt.dll
+    16                                  import fprintf msvcrt.dll
+    17                                  
+    18                                  ; our data is declared here (the variables needed by our program)
+    19                                  segment data use32 class=data
+    20                                      ; ...
+    21                                  	; PROBLEM 15:
+    22                                  	;A file name and a text (defined in the data segment) are given.
+    23                                  	;The text contains lowercase letters, uppercase letters, digits and special characters. 
+    24                                  	;Replace all the special characters from the given text with the character 'X'. 
+    25                                  	;Create a file with the given name and write the generated text to file.
+    26                                  	
+    27 00000000 706231355F66696C65-     	file_name db "pb15_file.txt",0			;name of the file
+    27 00000009 2E74787400         
+    28 0000000E 7700                    	mod_acces db "w",0					;way of accessing(reading and writing)
+    29                                  	
+    30 00000010 FFFFFFFF                	descriptor dd -1					;innitial descriptor 
+    31                                  	
+    32 00000014 5465787420666F722C-     	text db "Text for, file;",0			
+    32 0000001D 2066696C653B00     
+    33                                  	
+    34                                  ; our code starts here
+    35                                  segment code use32 class=code
+    36                                      start:
+    37                                          ; ...
+    38                                  		;eax will have the descriptor's value if the file is created or 0  
+    39 00000000 68[0E000000]            		push dword mod_acces			;push acces mode
+    40 00000005 68[00000000]            		push dword file_name			;push file name
+    41 0000000A FF15[00000000]          		call [fopen]					;open the file for writing
+    42 00000010 83C408                  		add esp,4*2						;free up the stack
+    43                                  		
+    44 00000013 89C3                    		mov ebx,eax			;save the value from fopen to the descriptor(the descriptor from the file)		
+    45                                  			
+    46 00000015 83F800                  		cmp eax, 0						;see if the file is created (if eax!=0)
+    47 00000018 744C                            je final
+    48                                  		
+    49 0000001A BE[14000000]            		mov esi, text					;pointer to text address
+    50                                  		
+    51                                  		replace_in_text:
+    52 0000001F 8A06                    			mov al,[esi]			;mov the bytes in all to verify them
+    53                                  			
+    54 00000021 3C00                    			cmp al,0					;check if we got to the end of the string
+    55 00000023 7428                    			je write_text
+    56                                  	
+    57                                  		cmp_lowercase:					;check if it is a lowercase character
+    58 00000025 3C61                    			cmp al,'a'
+    59 00000027 7C06                    			jl cmp_uppercase
+    60 00000029 3C7A                    			cmp al,'z'
+    61 0000002B 7F02                    			jg cmp_uppercase
+    62                                  			
+    63 0000002D EB1B                    			jmp next_char
+    64                                  		
+    65                                  		cmp_uppercase:					;check if is a uppercase character
+    66 0000002F 3C41                    			cmp al,'A'
+    67 00000031 7C06                    			jl cmp_number
+    68 00000033 3C5A                    			cmp al,'Z'
+    69 00000035 7F02                    			jg cmp_number
+    70                                  			
+    71 00000037 EB11                    			jmp next_char
+    72                                  		
+    73                                  		cmp_number:						; chech if it is a number
+    74 00000039 3C30                    			cmp al,'0'
+    75 0000003B 7C06                    			jl cmp_space
+    76 0000003D 3C39                    			cmp al, '9'
+    77 0000003F 7F02                    			jg cmp_space
+    78                                  			
+    79 00000041 EB07                    			jmp next_char
+    80                                  		
+    81                                  		cmp_space:
+    82 00000043 3C20                    			cmp al," "
+    83 00000045 7403                    			jz next_char 
+    84                                  			
+    85                                  		special_character:
+    86 00000047 C60658                  			mov byte[esi],'X'			;replace in text if needed
+    87                                  			
+    88                                  		next_char:
+    89 0000004A 46                      			inc esi						;go to the next byte
+    90 0000004B EBD2                    			jmp replace_in_text			
+    91                                  		
+    92                                  		
+    93                                  		
+    94                                  		write_text:
+    95 0000004D 68[14000000]            			push dword text
+    96 00000052 53                      			push dword ebx
+    97 00000053 FF15[00000000]          			call [fprintf]					;we write the text in the file	
+    98 00000059 83C408                  			add esp,4*2
+    99                                  		
+   100                                  		
+   101 0000005C 53                      		push dword ebx
+   102 0000005D FF15[00000000]          		call [fclose]				;close the file
+   103 00000063 83C404                  		add esp,4
+   104                                  		
+   105                                  	final:
+   106                                          ; exit(0)
+   107 00000066 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+   108 00000068 FF15[00000000]                  call    [exit]       ; call exit to terminate the program
