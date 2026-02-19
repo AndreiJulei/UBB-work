@@ -1,0 +1,31 @@
+package model.expression;
+
+import exceptions.LanguageInterpreterException;
+import model.adt.IDictionary;
+import model.adt.IHeap;
+import model.type.IType;
+import model.value.IValue;
+
+public record ConstantExpression(IValue value) implements IExpression {
+    @Override
+    public String toString()
+    {
+        return value.toString();
+    }
+
+    @Override
+    public IValue evaluate(IDictionary<String, IValue> symTable, IHeap<Integer, IValue> heap) throws LanguageInterpreterException {
+        return value;
+    }
+
+    @Override
+    public IType typeCheck(IDictionary<String, IType> typeEnv) throws LanguageInterpreterException {
+        return value.getType();
+    }
+
+    @Override
+    public IExpression deepCopy() {
+        return new ConstantExpression(value.deepCopy());
+    }
+
+}

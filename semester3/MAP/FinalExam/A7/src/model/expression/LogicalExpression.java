@@ -1,0 +1,59 @@
+package model.expression;
+
+import exceptions.LanguageInterpreterException;
+import model.adt.IDictionary;
+import model.adt.IHeap;
+import model.type.BooleanType;
+import model.type.IType;
+import model.value.BooleanValue;
+import model.value.IValue;
+
+public record LogicalExpression(String operator, IExpression left, IExpression right)
+        implements IExpression {
+
+    @Override
+    public String toString() {
+        return "(" + left.toString() + " " + operator + " " + right.toString() + ")";
+    }
+
+    @Override
+    public IValue evaluate(IDictionary<String, IValue> symTable, IHeap<Integer, IValue> heap) throws LanguageInterpreterException {
+        var leftTerm = left.evaluate(symTable, heap);
+        var rightTerm = right.evaluate(symTable, heap);
+
+        if (!(leftTerm.getType() instanceof BooleanType) || !(rightTerm.getType() instanceof BooleanType)) {
+            throw new LanguageInterpreterException("Logical operands must be booleans");
+        }
+
+        var leftValue = (BooleanValue) leftTerm;
+        var rightValue = (BooleanValue) rightTerm;
+
+        return switch (operator) {
+            case "&&" -> new BooleanValue(leftValue.value() && rightValue.value());
+            case "||" -> new BooleanValue(leftValue.value() || rightValue.value());
+            default -> throw new LanguageInterpreterException("Invalid logical operator: " + operator);
+        };
+    }
+
+    @Override
+    public IType typeCheck(IDictionary<String, IType> typeEnv) throws LanguageInterpreterException {
+        IType leftType = left.typeCheck(typeEnv);
+        IType rightType = right.typeCheck(typeEnv);
+
+        if(!(leftType.equals(new BooleanType()))) {
+            throw new LanguageInterpreterException("First operand must be a boolean");
+        }
+
+        if(!(rightType.equals(new BooleanType()))) {
+            throw new LanguageInterpreterException("Second operand must be a boolean");
+        }
+
+        return new BooleanType();
+    }
+
+    @Override
+    public IExpression deepCopy() {
+        return new LogicalExpression(operator, left.deepCopy(), right.deepCopy());
+    }
+
+}

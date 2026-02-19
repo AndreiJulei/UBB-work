@@ -1,0 +1,68 @@
+package model.expression;
+
+import exceptions.LanguageInterpreterException;
+import model.adt.IDictionary;
+import model.adt.IHeap;
+import model.type.BooleanType;
+import model.type.IType;
+import model.type.IntegerType;
+import model.value.BooleanValue;
+import model.value.IValue;
+import model.value.IntegerValue;
+
+public record RelationalExpression(String operator, IExpression left, IExpression right)
+        implements IExpression {
+
+    @Override
+    public String toString() {
+        return "(" + left.toString() + " " + operator + " " + right.toString() + ")";
+    }
+
+    @Override
+    public IValue evaluate(IDictionary<String, IValue> symTable, IHeap<Integer, IValue> heap) throws LanguageInterpreterException {
+        var leftTerm = left.evaluate(symTable, heap);
+        var rightTerm = right.evaluate(symTable, heap);
+
+        // Check both are integers
+        if (!(leftTerm.getType() instanceof IntegerType) || !(rightTerm.getType() instanceof IntegerType)) {
+            throw new LanguageInterpreterException("Relational operands must be integers");
+        }
+
+        var leftValue = (IntegerValue) leftTerm;
+        var rightValue = (IntegerValue) rightTerm;
+
+        int leftInt = leftValue.value();
+        int rightInt = rightValue.value();
+
+        return switch (operator) {
+            case "<"  -> new BooleanValue(leftInt < rightInt);
+            case "<=" -> new BooleanValue(leftInt <= rightInt);
+            case "==" -> new BooleanValue(leftInt == rightInt);
+            case "!=" -> new BooleanValue(leftInt != rightInt);
+            case ">"  -> new BooleanValue(leftInt > rightInt);
+            case ">=" -> new BooleanValue(leftInt >= rightInt);
+            default   -> throw new LanguageInterpreterException("Invalid relational operator: " + operator);
+        };
+    }
+
+    @Override
+    public IType typeCheck(IDictionary<String, IType> typeEnv) throws LanguageInterpreterException {
+        IType leftType = left.typeCheck(typeEnv);
+        IType rightType = right.typeCheck(typeEnv);
+
+        if(!(leftType.equals(new IntegerType()))) {
+            throw new LanguageInterpreterException("First operand must be an integer");
+        }
+
+        if(!(rightType.equals(new IntegerType()))) {
+            throw new LanguageInterpreterException("Second operand must be an integer");
+        }
+
+        return new BooleanType();
+    }
+
+    @Override
+    public IExpression deepCopy() {
+        return new RelationalExpression(operator, left.deepCopy(), right.deepCopy());
+    }
+}

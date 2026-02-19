@@ -1,0 +1,15 @@
+Sure, here's the contents for the file: /sorted-map-bst/sorted-map-bst/src/App.cpp
+
+#include "ExtendedTest.h"
+#include "ShortTest.h"
+#include <iostream>
+using namespace std;
+
+int main() {
+    testAll();
+    testAllExtended();
+
+    cout << "That's all!" << endl;
+    system("pause");
+    return 0;
+}

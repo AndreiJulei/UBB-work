@@ -1,0 +1,1 @@
+ cd /Users/juv/Documents/MAP/lab3/demo && mvn clean compile && mvn javafx:run

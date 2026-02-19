@@ -1,0 +1,1604 @@
+=== Program State (id=1) ===
+ExeStack:
+   (int v;(v=0;(fork((v=1;print(v)));(v=2;print(v)))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   int v
+   (v=0;(fork((v=1;print(v)));(v=2;print(v))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   int v
+   (v=0;(fork((v=1;print(v)));(v=2;print(v))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (v=0;(fork((v=1;print(v)));(v=2;print(v))))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (v=0;(fork((v=1;print(v)));(v=2;print(v))))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=0
+   (fork((v=1;print(v)));(v=2;print(v)))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=0
+   (fork((v=1;print(v)));(v=2;print(v)))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((v=1;print(v)));(v=2;print(v)))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((v=1;print(v)));(v=2;print(v)))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((v=1;print(v)))
+   (v=2;print(v))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((v=1;print(v)))
+   (v=2;print(v))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (v=2;print(v))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   (v=1;print(v))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (v=2;print(v))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   (v=1;print(v))
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=2
+   print(v)
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   v=1
+   print(v)
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=2
+   print(v)
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   v=1
+   print(v)
+SymTable:
+   v -> 0
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   print(v)
+SymTable:
+   v -> 2
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   print(v)
+SymTable:
+   v -> 1
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   print(v)
+SymTable:
+   v -> 2
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   print(v)
+SymTable:
+   v -> 1
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+SymTable:
+   v -> 2
+Out:
+   2
+   1
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+SymTable:
+   v -> 1
+Out:
+   2
+   1
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (string varf;(varf=test.txt;(openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   string varf
+   (varf=test.txt;(openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   string varf
+   (varf=test.txt;(openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (varf=test.txt;(openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))))
+SymTable:
+   varf -> 
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (varf=test.txt;(openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))))
+SymTable:
+   varf -> 
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   varf=test.txt
+   (openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))))
+SymTable:
+   varf -> 
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   varf=test.txt
+   (openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))))
+SymTable:
+   varf -> 
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (openRFile(varf);(int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   openRFile(varf)
+   (int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   openRFile(varf)
+   (int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (int varc;(readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   int varc
+   (readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   int varc
+   (readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))
+SymTable:
+   varf -> test.txt
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))
+SymTable:
+   varf -> test.txt
+   varc -> 0
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (readFile(varf, varc);(print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf)))))
+SymTable:
+   varf -> test.txt
+   varc -> 0
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   readFile(varf, varc)
+   (print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))
+SymTable:
+   varf -> test.txt
+   varc -> 0
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   readFile(varf, varc)
+   (print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))
+SymTable:
+   varf -> test.txt
+   varc -> 0
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (print(varc);(readFile(varf, varc);(print(varc);closeRFile(varf))))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   print(varc)
+   (readFile(varf, varc);(print(varc);closeRFile(varf)))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   print(varc)
+   (readFile(varf, varc);(print(varc);closeRFile(varf)))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (readFile(varf, varc);(print(varc);closeRFile(varf)))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (readFile(varf, varc);(print(varc);closeRFile(varf)))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   readFile(varf, varc)
+   (print(varc);closeRFile(varf))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   readFile(varf, varc)
+   (print(varc);closeRFile(varf))
+SymTable:
+   varf -> test.txt
+   varc -> 67
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (print(varc);closeRFile(varf))
+SymTable:
+   varf -> test.txt
+   varc -> 33
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (print(varc);closeRFile(varf))
+SymTable:
+   varf -> test.txt
+   varc -> 33
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   print(varc)
+   closeRFile(varf)
+SymTable:
+   varf -> test.txt
+   varc -> 33
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   print(varc)
+   closeRFile(varf)
+SymTable:
+   varf -> test.txt
+   varc -> 33
+Out:
+   67
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   closeRFile(varf)
+SymTable:
+   varf -> test.txt
+   varc -> 33
+Out:
+   67
+   33
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   closeRFile(varf)
+SymTable:
+   varf -> test.txt
+   varc -> 33
+Out:
+   67
+   33
+FileTable:
+   test.txt
+Heap:
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+SymTable:
+   varf -> test.txt
+   varc -> 33
+Out:
+   67
+   33
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (Ref(int) a;(new(a, 20);(for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a)))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   Ref(int) a
+   (new(a, 20);(for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   Ref(int) a
+   (new(a, 20);(for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a))))
+SymTable:
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (new(a, 20);(for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a))))
+SymTable:
+   a -> (0, int)
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (new(a, 20);(for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a))))
+SymTable:
+   a -> (0, int)
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   new(a, 20)
+   (for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a)))
+SymTable:
+   a -> (0, int)
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   new(a, 20)
+   (for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a)))
+SymTable:
+   a -> (0, int)
+Out:
+FileTable:
+Heap:
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a)))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)));print(rH(a)))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   for(v=0; v<3; v=v + 1) fork((print(v);v=v * rH(a)))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (int v;(v=0;while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (int v;(v=0;while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   int v
+   (v=0;while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   int v
+   (v=0;while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (v=0;while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (v=0;while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1))
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=0
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=0
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((print(v);v=v * rH(a)));v=v + 1)
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((print(v);v=v * rH(a)));v=v + 1)
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((print(v);v=v * rH(a)))
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((print(v);v=v * rH(a)))
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   (print(v);v=v * rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   (print(v);v=v * rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   print(v)
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   print(v)
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((print(v);v=v * rH(a)));v=v + 1)
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((print(v);v=v * rH(a)));v=v + 1)
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((print(v);v=v * rH(a)))
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=2) ===
+ExeStack:
+SymTable:
+   a -> (1, int)
+   v -> 0
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((print(v);v=v * rH(a)))
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (print(v);v=v * rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   (print(v);v=v * rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   print(v)
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   print(v)
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((print(v);v=v * rH(a)));v=v + 1)
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   (fork((print(v);v=v * rH(a)));v=v + 1)
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 1
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((print(v);v=v * rH(a)))
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=3) ===
+ExeStack:
+SymTable:
+   a -> (1, int)
+   v -> 20
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   fork((print(v);v=v * rH(a)))
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=4) ===
+ExeStack:
+   (print(v);v=v * rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   v=v + 1
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=4) ===
+ExeStack:
+   (print(v);v=v * rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 3
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=4) ===
+ExeStack:
+   print(v)
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   while(v < 3) (fork((print(v);v=v * rH(a)));v=v + 1)
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 3
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=4) ===
+ExeStack:
+   print(v)
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 3
+Out:
+   0
+   1
+   2
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=4) ===
+ExeStack:
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+   2
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+   print(rH(a))
+SymTable:
+   a -> (1, int)
+   v -> 3
+Out:
+   0
+   1
+   2
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=4) ===
+ExeStack:
+   v=v * rH(a)
+SymTable:
+   a -> (1, int)
+   v -> 2
+Out:
+   0
+   1
+   2
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=1) ===
+ExeStack:
+SymTable:
+   a -> (1, int)
+   v -> 3
+Out:
+   0
+   1
+   2
+   20
+FileTable:
+Heap:
+   1 -> 20
+==============================
+
+=== Program State (id=4) ===
+ExeStack:
+SymTable:
+   a -> (1, int)
+   v -> 40
+Out:
+   0
+   1
+   2
+   20
+FileTable:
+Heap:
+   1 -> 20
+==============================
+

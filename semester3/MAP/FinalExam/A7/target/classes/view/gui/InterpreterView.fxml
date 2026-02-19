@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.control.ScrollPane?>
+
+<BorderPane
+        xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="view.gui.InterpreterController">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Number of Program States:" />
+            <TextField fx:id="prgStateCountField" editable="false" />
+            <Button text="Run one step" onAction="#runOneStep"/>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox spacing="5">
+            <Label text="Program States" />
+            <ListView fx:id="prgStateListView" prefWidth="150" prefHeight="400"/>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <VBox spacing="10">
+                <Label text="Execution Stack" />
+                <ListView fx:id="exeStackView" prefHeight="120" maxHeight="120"/>
+
+                <Label text="Symbol Table" />
+                <TableView fx:id="symTable" prefHeight="120" maxHeight="120">
+                    <columns>
+                        <TableColumn fx:id="symVarColumn" text="Variable" prefWidth="150"/>
+                        <TableColumn fx:id="symValueColumn" text="Value" prefWidth="150"/>
+                    </columns>
+                </TableView>
+
+                <Label text="Heap Table" />
+                <TableView fx:id="heapTable" prefHeight="120" maxHeight="120">
+                    <columns>
+                        <TableColumn fx:id="heapAddressColumn" text="Address" prefWidth="150"/>
+                        <TableColumn fx:id="heapValueColumn" text="Value" prefWidth="150"/>
+                    </columns>
+                </TableView>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <right>
+        <VBox spacing="10">
+            <Label text="Output" />
+            <ListView fx:id="outListView" prefHeight="200" maxHeight="200"/>
+
+            <Label text="File Table" />
+            <ListView fx:id="fileTableView" prefHeight="200" maxHeight="200"/>
+        </VBox>
+    </right>
+</BorderPane>
